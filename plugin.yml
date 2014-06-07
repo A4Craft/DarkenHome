@@ -1,0 +1,8 @@
+name: HomeTempName
+version: 1.0.0
+author: zhscraft
+main: zhscraft.UUIDSystemHome.Client
+description: SystemHome Built for DarkZ Only.
+commands:
+  home:
+    Usage: /home
