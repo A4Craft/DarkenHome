@@ -1,8 +1,10 @@
-name: HomeTempName
-version: 1.0.0
+name: DarkenHome
+version: 1.0.1
 author: zhscraft
-main: zhscraft.UUIDSystemHome.Client
-description: SystemHome Built for DarkZ Only.
+main: zhscraft.DarkenHome.Client
+description: DarkenHome Built for DarkZ Only.
 commands:
+  myhome:
+    Usage: /myhome
   home:
     Usage: /home

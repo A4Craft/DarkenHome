@@ -1,0 +1,69 @@
+package zhscraft.DarkenHome;
+
+import java.io.File;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+
+import org.bukkit.Bukkit;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.plugin.java.JavaPlugin;
+
+public class Client extends JavaPlugin {
+	// public SQLite sqlite;
+
+	public static String PATH = "./plugins/DarkenHome/";
+
+	public void setupCommands(String cmd, CommandExecutor args) {
+		Bukkit.getServer().getPluginCommand(cmd).setExecutor(args);
+	}
+
+	public void createDir(String path) {
+		File file = new File(path);
+		if (!file.exists()) {
+			file.mkdirs();
+			createSQL_HOME();
+		}
+	}
+
+	public void onEnable() {
+		this.createDir(PATH);
+		setupCommands("home", new Home(this));
+		setupCommands("myhome", new MyHome(this));
+
+	}
+
+	public void onDisable() {
+		// sqlite.stop();
+	}
+
+	
+
+
+	public void createSQL_HOME() {
+		Connection c = null;
+		Statement stmt = null;
+		try {
+			Class.forName("org.sqlite.JDBC");
+			c = DriverManager.getConnection("jdbc:sqlite:" + PATH + "home.db");
+			System.out.println("Opened database successfully");
+
+			stmt = c.createStatement();
+			String sql = "CREATE TABLE homeset " + "(UUID TEXT NOT NULL, " + " getX INT NOT NULL, " + " getY INT NOT NULL, " + " getZ INT NOT NULL, " + " public BOOLEAN NOT NULL)";
+
+			String invites = "CREATE TABLE homeinvited " + "(id INT, UUID TEXT NOT NULL, invitedUUID TEXT NOT NULL)";
+			stmt.executeUpdate(sql);
+			stmt.executeUpdate(invites);
+			stmt.close();
+			c.close();
+		} catch (Exception e) {
+			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+		}
+		System.out.println("Table created successfully");
+	}
+
+}
