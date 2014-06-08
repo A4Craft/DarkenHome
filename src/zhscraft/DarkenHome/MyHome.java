@@ -12,8 +12,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import zhscraft.DarkenHome.sql.sqlHandler;
-
 public class MyHome implements CommandExecutor {
 
 	Client c;
