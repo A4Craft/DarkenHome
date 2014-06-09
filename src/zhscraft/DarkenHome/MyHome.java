@@ -31,6 +31,7 @@ public class MyHome implements CommandExecutor {
 			p.sendMessage("/myhome set");
 			p.sendMessage("/myhome invite <player>");
 			p.sendMessage("/myhome remove");
+			p.sendMessage("/myhome clear | clears the invite list for you're homeset");
 			if(p.hasPermission("darken.home.admin")){
 				p.sendMessage("/myhome admin delete <player> | delete players home");
 			}
@@ -72,6 +73,14 @@ public class MyHome implements CommandExecutor {
 			}
 
 		}
+		
+		if(a[0].contains("clear")){
+			String MyUUID = p.getUniqueId().toString();
+			sqlHandler.removePlayerInvite(MyUUID);
+			p.sendMessage(ChatColor.DARK_GRAY + "you have cleared you're invite list!");
+			
+			
+		}
 
 		if (a[0].contains("remove")) {
 			String MyUUID = p.getUniqueId().toString();
@@ -89,7 +98,7 @@ public class MyHome implements CommandExecutor {
 					sqlHandler.removePlayerByUUID(input);
 					p.sendMessage(ChatColor.DARK_GRAY + "you have delete "+ UUIDtoName +" home");
 				}
-				
+								
 			}
 		}
 

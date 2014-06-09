@@ -14,6 +14,49 @@ import org.bukkit.util.Vector;
 
 public class sqlHandler {
 
+	
+	public static void removePlayerInvite(String myUUID) {
+		Connection c = null;
+		Statement st = null;
+		
+
+		try {
+			Class.forName("org.sqlite.JDBC");
+			c = DriverManager.getConnection("jdbc:sqlite:" + Client.PATH + "home.db");
+			st = c.createStatement();
+			String SQL = "DELETE FROM homeinvited WHERE UUID = '" + myUUID + "' ";
+			st.executeUpdate(SQL);
+		} catch (SQLException | ClassNotFoundException ex) {
+			ex.printStackTrace();
+		} finally {
+			try {
+				if (c != null) {
+					c.close();
+				}
+				if (st != null) {
+					st.close();
+				}
+
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+			}
+		}
+
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	public static boolean checkDatabase_homeset(String tablename, String UUID) throws ClassNotFoundException, SQLException {
 		Connection c = null;
 		PreparedStatement stmt = null;
@@ -40,7 +83,7 @@ public class sqlHandler {
 		}
 
 		} catch (SQLException | ClassNotFoundException ex) {
-			Bukkit.broadcastMessage("SQL was not excuted!");
+			System.out.println("SQL was not excuted!");
 			ex.printStackTrace();
 		} finally {
 			try {
@@ -100,7 +143,7 @@ public class sqlHandler {
 			}
 
 		} catch (SQLException | ClassNotFoundException ex) {
-			Bukkit.broadcastMessage("SQL was not excuted!");
+			System.out.println("SQL was not excuted!");
 			ex.printStackTrace();
 		} finally {
 			try {
@@ -145,7 +188,7 @@ public class sqlHandler {
 			pst.close();
 			c.close();
 		} catch (SQLException | ClassNotFoundException ex) {
-			Bukkit.broadcastMessage("SQL was not excuted!");
+			System.out.println("SQL was not excuted!");
 			ex.printStackTrace();
 		} finally {
 			try {
@@ -178,8 +221,6 @@ public class sqlHandler {
 
 			String sql = "INSERT INTO homeinvited(UUID, invitedUUID) VALUES(?,?)";
 			stmt = c.prepareStatement(sql);
-			Bukkit.broadcastMessage("MaxRows " + stmt.getMaxRows());
-			// stmt.setInt(1, stmt.getMaxRows() + 1);
 
 			stmt.setString(1, UUID);
 			stmt.setString(2, invitedPlayerUUID);

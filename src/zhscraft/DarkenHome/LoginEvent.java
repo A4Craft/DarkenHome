@@ -14,8 +14,6 @@ public class LoginEvent implements Listener {
 	public void Join(PlayerJoinEvent e) {
 		Player p = e.getPlayer();
 		try {
-			
-			Bukkit.broadcastMessage("am i in database? " + UUIDStorageHandler.CheckIfUUIDMatches(p.getUniqueId().toString()));
 			UUIDStorageHandler.updateDatabaseForNameChanges(UUIDStorageHandler.CheckIfUUIDMatches(p.getUniqueId().toString()), p);
 		} catch (ClassNotFoundException | SQLException e1) {
 			e1.printStackTrace();

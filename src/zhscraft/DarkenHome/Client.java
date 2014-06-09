@@ -16,7 +16,6 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Client extends JavaPlugin {
-	//TODO remove all invited command
 	//TODO think of what i'm missing
 	//TODO find and fix bugs if any
 
@@ -43,13 +42,6 @@ public class Client extends JavaPlugin {
 		setupCommands("myhome", new MyHome(this));
 		setupEvents(new LoginEvent(), this);
 	}
-
-	public void onDisable() {
-		// sqlite.stop();
-	}
-
-	
-
 
 	public void createSQL_HOME() {
 		Connection c = null;
