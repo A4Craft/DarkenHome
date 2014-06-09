@@ -16,13 +16,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Client extends JavaPlugin {
-<<<<<<< HEAD
-=======
-	//TODO remove all invited command
-	//TODO add a uninvite command
->>>>>>> c046d564c7f5bd47231f3662f0f90f9c1fd067ab
-	//TODO think of what i'm missing
-	//TODO find and fix bugs if any
+
 
 	public static String PATH = "./plugins/DarkenHome/";
 
