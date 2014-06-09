@@ -15,10 +15,15 @@ import org.bukkit.util.Vector;
 public class sqlHandler {
 
 	public static boolean checkDatabase_homeset(String tablename, String UUID) throws ClassNotFoundException, SQLException {
+		Connection c = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try {
+		
 		Class.forName("org.sqlite.JDBC");
-		Connection c = DriverManager.getConnection("jdbc:sqlite:" + Client.PATH + "home.db");
-		PreparedStatement stmt = c.prepareStatement("SELECT * FROM homeset");
-		ResultSet rs = stmt.executeQuery();
+		c = DriverManager.getConnection("jdbc:sqlite:" + Client.PATH + "home.db");
+		stmt = c.prepareStatement("SELECT * FROM homeset");
+		rs = stmt.executeQuery();
 
 		ArrayList<String> data = new ArrayList<String>();
 		while (rs.next()) {
@@ -34,10 +39,26 @@ public class sqlHandler {
 			}
 		}
 
-		stmt.close();
-		c.close();
-		return false;
+		} catch (SQLException | ClassNotFoundException ex) {
+			Bukkit.broadcastMessage("SQL was not excuted!");
+			ex.printStackTrace();
+		} finally {
+			try {
+				if (c != null) {
+					c.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+				if (stmt != null) {
+					stmt.close();
+				}
 
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+			}
+		}
+		return false;
 	}
 
 	public static void setHomeset(String UUID, String getX, String getY, String getZ, boolean flag, boolean isUpdating) {

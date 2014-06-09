@@ -39,38 +39,31 @@ public class Home implements CommandExecutor {
 			}
 
 		} else if (arg2.equalsIgnoreCase("home") && a.length > 0) {
-			if (Bukkit.getOfflinePlayer(a[0]) != null || Bukkit.getPlayer(a[0]) != null) {
-				if (a[0].contains(Bukkit.getOfflinePlayer(a[0]).getName()) || a[0].contains(Bukkit.getPlayer(a[0]).getName())) {
+			try {
+				if (Bukkit.getOfflinePlayer(a[0]) != null || Bukkit.getPlayer(a[0]) != null) {
+					if (a[0].contains(Bukkit.getOfflinePlayer(a[0]).getName()) || a[0].contains(Bukkit.getPlayer(a[0]).getName())) {
 
-					try {
-						String myUUID = p.getUniqueId().toString();
-						String OtherPlayerUUID = Bukkit.getOfflinePlayer(a[0]).getUniqueId().toString();
-						String OwnerName = Bukkit.getOfflinePlayer(UUID.fromString(OtherPlayerUUID)).getName();
-						try {
-							if (sqlHandler.checkDatabase_homeset("homeset", OtherPlayerUUID) == true) {
-							
-								Vector v = sqlHandler.GetHomeCoords(Bukkit.getOfflinePlayer(OtherPlayerUUID).getName());
+						String CheckOtherPlayerUUID = UUIDStorageHandler.getUUIDFromUsername(a[0]);
+						String OwnerName = Bukkit.getOfflinePlayer(UUID.fromString(CheckOtherPlayerUUID)).getName();
 
-								p.teleport(new Location(p.getWorld(), v.getX(), v.getY(), v.getZ()));
-
-								p.sendMessage(ChatColor.DARK_GRAY + "Welcome to " + OwnerName + " home");
-							}else{
-								p.sendMessage(ChatColor.DARK_GRAY + OwnerName + " dosen't have a home");
-							}
-						} catch (ClassNotFoundException | SQLException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+						if (InvitedCheckHandler.isInivted(CheckOtherPlayerUUID, p.getUniqueId().toString()) == true) {
+							Vector v = sqlHandler.GetHomeCoords(Bukkit.getOfflinePlayer(CheckOtherPlayerUUID).getName());
+							p.teleport(new Location(p.getWorld(), v.getX(), v.getY(), v.getZ()));
+							p.sendMessage(ChatColor.DARK_GRAY + "Welcome to " + OwnerName + " home");
+						} else {
+							p.sendMessage(ChatColor.DARK_GRAY + "you are not invited to this players home sorry :(");
 						}
 
-					} catch (NullPointerException e) {
-						e.printStackTrace();
 					}
+
 				}
 
+			} catch (NullPointerException e) {
+				p.sendMessage(ChatColor.DARK_GRAY + "check the username and try again!");
 			}
+
 		}
 
 		return false;
 	}
-
 }
