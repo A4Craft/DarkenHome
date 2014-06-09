@@ -17,6 +17,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class Client extends JavaPlugin {
 	//TODO remove all invited command
+	//TODO add a uninvite command
 	//TODO think of what i'm missing
 	//TODO find and fix bugs if any
 
