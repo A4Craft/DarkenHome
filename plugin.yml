@@ -1,0 +1,10 @@
+name: DarkenHome
+version: 1.0.1
+author: zhscraft
+main: zhscraft.DarkenHome.Client
+description: DarkenHome Built for DarkZ Only.
+commands:
+  myhome:
+    Usage: /myhome
+  home:
+    Usage: /home
