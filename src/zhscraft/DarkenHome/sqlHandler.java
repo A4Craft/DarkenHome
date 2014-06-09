@@ -14,11 +14,47 @@ import org.bukkit.util.Vector;
 
 public class sqlHandler {
 
-	
+	public static boolean isPublic(String checkOtherPlayerUUID) {
+		Connection c = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try {
+
+			Class.forName("org.sqlite.JDBC");
+			c = DriverManager.getConnection("jdbc:sqlite:" + Client.PATH + "home.db");
+			stmt = c.prepareStatement("SELECT public FROM homeset WHERE UUID = '" + checkOtherPlayerUUID + "'");
+			rs = stmt.executeQuery();
+			ArrayList<String> array = new ArrayList<String>();
+
+			while (rs.next()) {
+				return rs.getBoolean(1);
+			}
+
+		} catch (SQLException | ClassNotFoundException ex) {
+			System.out.println("SQL was not excuted!");
+			ex.printStackTrace();
+		} finally {
+			try {
+				if (c != null) {
+					c.close();
+				}
+				if (rs != null) {
+					rs.close();
+				}
+				if (stmt != null) {
+					stmt.close();
+				}
+
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+			}
+		}
+		return false;
+	}
+
 	public static void removePlayerInvite(String myUUID) {
 		Connection c = null;
 		Statement st = null;
-		
 
 		try {
 			Class.forName("org.sqlite.JDBC");
@@ -43,44 +79,31 @@ public class sqlHandler {
 		}
 
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	public static boolean checkDatabase_homeset(String tablename, String UUID) throws ClassNotFoundException, SQLException {
 		Connection c = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
-		
-		Class.forName("org.sqlite.JDBC");
-		c = DriverManager.getConnection("jdbc:sqlite:" + Client.PATH + "home.db");
-		stmt = c.prepareStatement("SELECT * FROM homeset");
-		rs = stmt.executeQuery();
 
-		ArrayList<String> data = new ArrayList<String>();
-		while (rs.next()) {
-			data.add(rs.getString(1));
-		}
-		String[] data1 = new String[data.size()];
-		for (int a = 0; a < data1.length; ++a) {
-			data1[a] = data.get(a);
-			if (UUID.equals(data.get(a))) {
-				return true;
-			} else {
-				return false;
+			Class.forName("org.sqlite.JDBC");
+			c = DriverManager.getConnection("jdbc:sqlite:" + Client.PATH + "home.db");
+			stmt = c.prepareStatement("SELECT * FROM homeset");
+			rs = stmt.executeQuery();
+
+			ArrayList<String> data = new ArrayList<String>();
+			while (rs.next()) {
+				data.add(rs.getString(1));
 			}
-		}
+			String[] data1 = new String[data.size()];
+			for (int a = 0; a < data1.length; ++a) {
+				data1[a] = data.get(a);
+				if (UUID.equals(data.get(a))) {
+					return true;
+				} else {
+					return false;
+				}
+			}
 
 		} catch (SQLException | ClassNotFoundException ex) {
 			System.out.println("SQL was not excuted!");
@@ -251,7 +274,6 @@ public class sqlHandler {
 	public static void removePlayerByUUID(String myUUID) {
 		Connection c = null;
 		Statement st = null;
-		
 
 		try {
 			Class.forName("org.sqlite.JDBC");

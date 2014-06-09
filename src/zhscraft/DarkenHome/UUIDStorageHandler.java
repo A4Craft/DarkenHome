@@ -38,7 +38,7 @@ public class UUIDStorageHandler {
 	
 
 		} catch (SQLException | ClassNotFoundException ex) {
-			Bukkit.broadcastMessage("SQL was not excuted!");
+			System.out.println("SQL was not excuted!");
 			ex.printStackTrace();
 		} finally {
 			try {
@@ -94,7 +94,7 @@ public class UUIDStorageHandler {
 			}
 
 		} catch (SQLException | ClassNotFoundException ex) {
-			Bukkit.broadcastMessage("SQL was not excuted!");
+			System.out.println("SQL was not excuted!");
 			ex.printStackTrace();
 		} finally {
 			try {
@@ -132,7 +132,7 @@ public class UUIDStorageHandler {
 		
 
 			} catch (SQLException | ClassNotFoundException ex) {
-				Bukkit.broadcastMessage("SQL was not excuted!");
+				System.out.println("SQL was not excuted!");
 				ex.printStackTrace();
 			} finally {
 				try {

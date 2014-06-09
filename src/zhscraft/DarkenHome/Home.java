@@ -46,12 +46,18 @@ public class Home implements CommandExecutor {
 						String CheckOtherPlayerUUID = UUIDStorageHandler.getUUIDFromUsername(a[0]);
 						String OwnerName = Bukkit.getOfflinePlayer(UUID.fromString(CheckOtherPlayerUUID)).getName();
 
-						if (InvitedCheckHandler.isInivted(CheckOtherPlayerUUID, p.getUniqueId().toString()) == true) {
+						if (sqlHandler.isPublic(CheckOtherPlayerUUID) == false) {
+							if (InvitedCheckHandler.isInivted(CheckOtherPlayerUUID, p.getUniqueId().toString()) == true) {
+								Vector v = sqlHandler.GetHomeCoords(Bukkit.getOfflinePlayer(CheckOtherPlayerUUID).getName());
+								p.teleport(new Location(p.getWorld(), v.getX(), v.getY(), v.getZ()));
+								p.sendMessage(ChatColor.DARK_GRAY + "Welcome to " + OwnerName + " home");
+							} else {
+								p.sendMessage(ChatColor.DARK_GRAY + "you are not invited to this players home sorry :(");
+							}
+						} else {
 							Vector v = sqlHandler.GetHomeCoords(Bukkit.getOfflinePlayer(CheckOtherPlayerUUID).getName());
 							p.teleport(new Location(p.getWorld(), v.getX(), v.getY(), v.getZ()));
 							p.sendMessage(ChatColor.DARK_GRAY + "Welcome to " + OwnerName + " home");
-						} else {
-							p.sendMessage(ChatColor.DARK_GRAY + "you are not invited to this players home sorry :(");
 						}
 
 					}
