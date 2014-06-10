@@ -12,7 +12,7 @@ import org.bukkit.util.Vector;
 public class CommandMethods {
 
 	public static void help(Player p, String arg2, String[] a) {
-		if (a[0].contains("help")) {
+		if (a[0].equalsIgnoreCase("help")) {
 			p.sendMessage(ChatColor.GREEN + "/home | takes you to you're home");
 			p.sendMessage(ChatColor.GREEN + "/home <player> | takes you to a players home");
 			p.sendMessage(ChatColor.GREEN + "/myhome set | sets you're home");
@@ -26,7 +26,7 @@ public class CommandMethods {
 	}
 
 	public static void set(Player p, String arg2, String[] a) {
-		if (a[0].contains("set")) {
+		if (a[0].equalsIgnoreCase("set")) {
 			Location loc = p.getLocation();
 			Vector vec = new Vector(loc.getX(), loc.getY(), loc.getZ());
 			try {
@@ -44,7 +44,7 @@ public class CommandMethods {
 	}
 
 	public static void invite(Player p, String arg2, String[] a) {
-		if (a[0].contains("invite")) {
+		if (a[0].equalsIgnoreCase("invite")) {
 
 			String input = Bukkit.getOfflinePlayer(a[1]).getUniqueId().toString();
 			String MyUUID = p.getUniqueId().toString();
@@ -65,7 +65,7 @@ public class CommandMethods {
 	}
 
 	public static void clear(Player p, String arg2, String[] a) {
-		if (a[0].contains("clear")) {
+		if (a[0].equalsIgnoreCase("clear")) {
 			String MyUUID = p.getUniqueId().toString();
 			sqlHandler.removePlayerInvite(MyUUID);
 			p.sendMessage(ChatColor.DARK_GRAY + "you have cleared you're invite list!");
@@ -74,15 +74,25 @@ public class CommandMethods {
 	}
 
 	public static void remove(Player p, String arg2, String[] a) {
-		if (a[0].contains("remove")) {
+		if (a[0].equalsIgnoreCase("remove")) {
 			String MyUUID = p.getUniqueId().toString();
 			sqlHandler.removePlayerByUUID(MyUUID);
 			p.sendMessage(ChatColor.DARK_GRAY + "you have delete you're home");
 		}
 	}
+	
+	public static void removeinvited(Player p, String arg2, String[] a){
+		if(a[0].equalsIgnoreCase("uninvite")){
+			String RemovedPlayer = Bukkit.getOfflinePlayer(a[1]).getUniqueId().toString();
+			String MyUUID = p.getUniqueId().toString();
+			sqlHandler.removeInvitedPlayer(RemovedPlayer, MyUUID);
+			p.sendMessage("Player was removed from you invite list");
+			
+		}
+	}
 
 	public static void admin(Player p, String arg2, String[] a) {
-		if (a[0].contains("admin")) {
+		if (a[0].equalsIgnoreCase("admin")) {
 
 			if (a[1].contains("delete")) {
 				String input = Bukkit.getOfflinePlayer(a[2]).getUniqueId().toString();

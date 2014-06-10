@@ -299,4 +299,34 @@ public class sqlHandler {
 
 	}
 
+	public static void removeInvitedPlayer(String removedPlayer, String myUUID) {
+		Connection c = null;
+		Statement st = null;
+
+		try {
+			Class.forName("org.sqlite.JDBC");
+			c = DriverManager.getConnection("jdbc:sqlite:" + Client.PATH + "home.db");
+			st = c.createStatement();
+			String sqlDelete = "DELETE FROM homeinvited WHERE UUID = '" + myUUID + "' AND invitedUUID = '" + removedPlayer + "'";
+
+			st.executeUpdate(sqlDelete);
+
+		} catch (SQLException | ClassNotFoundException ex) {
+			ex.printStackTrace();
+		} finally {
+			try {
+				if (c != null) {
+					c.close();
+				}
+				if (st != null) {
+					st.close();
+				}
+
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+			}
+		}
+
+	}
+
 }

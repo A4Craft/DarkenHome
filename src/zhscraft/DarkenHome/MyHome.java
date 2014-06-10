@@ -31,6 +31,7 @@ public class MyHome implements CommandExecutor {
 			CommandMethods.invite(p, arg2, a);
 			CommandMethods.clear(p, arg2, a);
 			CommandMethods.remove(p, arg2, a);
+			CommandMethods.removeinvited(p, arg2, a);
 		} else {
 			p.sendMessage("you do not have permissions to use this command");
 		}
