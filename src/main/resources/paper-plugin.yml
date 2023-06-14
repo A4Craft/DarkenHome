@@ -1,0 +1,4 @@
+name: DarkenHome
+version: '${version}'
+main: a4craft.darkenhome.DarkenHome
+api-version: 1.20

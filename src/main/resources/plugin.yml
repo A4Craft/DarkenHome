@@ -1,0 +1,16 @@
+name: DarkenHome
+version: 1.0.1
+author: zhscraft
+main: a4craft.darkenhome.DarkenHome
+description: DarkenHome rebuilt for fun.
+commands:
+  home:
+    Usage: /home
+  spawn:
+    Usage: /spawn
+  setspawn:
+    Usage: /setspawn
+  sethome:
+    Usage: /sethome
+  bed:
+     Usage: /bed
