@@ -57,6 +57,11 @@ public class SetHome implements CommandExecutor {
             }else if(args.length > 0){
 
                 boolean saveConfig = false;
+                if(args[0].equalsIgnoreCase("chestdel")){
+                    for(int x = 0; x < client.chestData.size(); x++){
+                        client.chestData.get(x).uuid = "null";
+                    }
+                }
                 if(args[0].equalsIgnoreCase("help")){
                     p.sendMessage("/sethome | this set the default pos");
                     p.sendMessage("/sethome public/private | this sets the home public or private");

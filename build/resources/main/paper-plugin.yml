@@ -1,4 +1,4 @@
 name: DarkenHome
-version: '1.20.1-rev1'
+version: '1.20.2-rev1'
 main: a4craft.darkenhome.DarkenHome
 api-version: 1.20

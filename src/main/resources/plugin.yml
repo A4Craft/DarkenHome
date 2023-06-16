@@ -13,4 +13,10 @@ commands:
   sethome:
     Usage: /sethome
   bed:
-     Usage: /bed
+    Usage: /bed
+  tphere:
+    Usage: /tphere
+  tpto:
+    Usage: /tpto
+  chestdel:
+    Usage: /chestdel

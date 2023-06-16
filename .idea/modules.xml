@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/a4craft.DarkenHome.main.iml" filepath="$PROJECT_DIR$/.idea/modules/a4craft.DarkenHome.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/DarkenHome.main.iml" filepath="$PROJECT_DIR$/.idea/modules/DarkenHome.main.iml" />
     </modules>
   </component>
 </project>

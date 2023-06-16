@@ -2,6 +2,8 @@ package a4craft.darkenhome;
 
 import java.io.File;
 
+import a4craft.darkenhome.lockChest.ChestData;
+import a4craft.darkenhome.lockChest.ChestSystem;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
 import java.io.File;
@@ -9,9 +11,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 
 import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
@@ -19,6 +21,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class DarkenHome extends JavaPlugin {
     public static String PATH = "./plugins/DarkenHome/homes/";
+    public static String PATH_Chests = "./plugins/DarkenHome/chests/";
     public static String UserFile = "./plugins/DarkenHome/homes/";
     public static String ConfigFile = "./plugins/DarkenHome/Config.yml";
     public YamlConfiguration ConfigYml = new YamlConfiguration();
@@ -28,6 +31,8 @@ public final class DarkenHome extends JavaPlugin {
     public boolean useHomeSystem;
     public boolean useSpawn;
 
+    public ArrayList<ChestData> chestData = new ArrayList<ChestData>();
+
     @Override
     public void onEnable() {
         try {
@@ -35,7 +40,10 @@ public final class DarkenHome extends JavaPlugin {
         } catch (IOException | InvalidConfigurationException e) {
             throw new RuntimeException(e);
         }
+        ChestSystem chest = new ChestSystem(this);
         setupEvents(new LoginEvent(), this);
+        setupEvents(chest, this);
+
         setupCommands("home", new Home(this));
         setupCommands("sethome", new SetHome(this));
         setupCommands("spawn", new Spawn(this));
@@ -43,6 +51,8 @@ public final class DarkenHome extends JavaPlugin {
 
         //admin commands only
         setupCommands("setspawn", new SpawnSetup(this));
+        setupCommands("tphere", new Teleport(this, 0));//id 0 just means use "tphere"
+        setupCommands("tpto", new Teleport(this, 1));// same as ^ but "tpto"
 
     }
 
@@ -80,6 +90,11 @@ public final class DarkenHome extends JavaPlugin {
         useBedSystem = ConfigYml.getBoolean("useBedSystem");
         useHomeSystem = ConfigYml.getBoolean("useHomeSystem");
         useSpawn = ConfigYml.getBoolean("useSpawn");
+
+        File file3 = new File(PATH_Chests);
+        if (!file3.exists()) {
+            file3.mkdirs();
+        }
 
     }
 
