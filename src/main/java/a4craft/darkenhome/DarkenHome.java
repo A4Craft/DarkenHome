@@ -24,17 +24,22 @@ public final class DarkenHome extends JavaPlugin {
     public YamlConfiguration ConfigYml = new YamlConfiguration();
 
     public boolean usePermissions;
+    public boolean useBedSystem;
+    public boolean useHomeSystem;
+    public boolean useSpawn;
 
     @Override
     public void onEnable() {
-        this.createDir(PATH);
+        try {
+            this.createDir(PATH);
+        } catch (IOException | InvalidConfigurationException e) {
+            throw new RuntimeException(e);
+        }
         setupEvents(new LoginEvent(), this);
         setupCommands("home", new Home(this));
         setupCommands("sethome", new SetHome(this));
         setupCommands("spawn", new Spawn(this));
         setupCommands("bed", new BedSpawn(this));
-//
-
 
         //admin commands only
         setupCommands("setspawn", new SpawnSetup(this));
@@ -47,7 +52,7 @@ public final class DarkenHome extends JavaPlugin {
     }
 
 
-    public void createDir(String path) {
+    public void createDir(String path) throws  IOException, InvalidConfigurationException {
         File file = new File(path);
         if (!file.exists()) {
             file.mkdirs();
@@ -55,27 +60,26 @@ public final class DarkenHome extends JavaPlugin {
 
         File file2 = new File(ConfigFile);
         if (!file2.exists()) {
-            try {
-                file2.createNewFile();
-                ConfigYml.load(ConfigFile);
-                //use permissions system or not to use it
-                ConfigYml.set("usePermissions", false);
-                ConfigYml.save(ConfigFile);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            } catch (InvalidConfigurationException e) {
-                throw new RuntimeException(e);
-            }
-        }else{
-            try {
-                ConfigYml.load(ConfigFile);
-                usePermissions = ConfigYml.getBoolean("usePermissions");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            } catch (InvalidConfigurationException e) {
-                throw new RuntimeException(e);
-            }
+            file2.createNewFile();
+            ConfigYml.load(ConfigFile);
+            ConfigYml.set("usePermissions", false);
+            usePermissions = false;
+            ConfigYml.set("useBedSystem", true);
+            useBedSystem = true;
+            ConfigYml.set("useHomeSystem", true);
+            useHomeSystem = true;
+            ConfigYml.set("useSpawn", true);
+            useSpawn = true;
+            ConfigYml.save(ConfigFile);
+
+
         }
+        ConfigYml = new YamlConfiguration();
+        ConfigYml.load(ConfigFile);
+        usePermissions = ConfigYml.getBoolean("usePermissions");
+        useBedSystem = ConfigYml.getBoolean("useBedSystem");
+        useHomeSystem = ConfigYml.getBoolean("useHomeSystem");
+        useSpawn = ConfigYml.getBoolean("useSpawn");
 
     }
 

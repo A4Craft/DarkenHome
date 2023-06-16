@@ -24,24 +24,25 @@ public class Spawn implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        YamlConfiguration YmlConfig = new YamlConfiguration();
+        if (!client.useSpawn)
+            return false;
         try {
-            YmlConfig.load(new File(client.ConfigFile));
+            if (label.equalsIgnoreCase("spawn")) {
+                YamlConfiguration YmlConfig = new YamlConfiguration();
+                YmlConfig.load(new File(DarkenHome.ConfigFile));
+
+                if (YmlConfig.get("spawnPos") != null) {
+                    Player p = (Player) sender;
+                    Vector pos = YmlConfig.getVector("spawnPos");
+                    String spawnName = YmlConfig.getString("spawnWorld");
+                    p.teleport(new Location(Bukkit.getWorld(spawnName), pos.getX(), pos.getY(), pos.getZ()));
+                    p.sendMessage("Welcome to Spawn");
+                }
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (InvalidConfigurationException e) {
             throw new RuntimeException(e);
-        }
-
-
-        if(label.equalsIgnoreCase("spawn")){
-            if(YmlConfig.get("spawnPos") != null){
-                Player p = (Player)sender;
-                Vector pos = YmlConfig.getVector("spawnPos");
-                String spawnName = YmlConfig.getString("spawnWorld");
-                p.teleport(new Location(Bukkit.getWorld(spawnName), pos.getX(), pos.getY(), pos.getZ()));
-                p.sendMessage("Welcome to Spawn");
-            }
         }
         return false;
     }

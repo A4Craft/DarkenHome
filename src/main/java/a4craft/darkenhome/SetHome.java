@@ -20,10 +20,13 @@ public class SetHome implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        if(!client.useHomeSystem)
+            return false;
+
         Player p = (Player)sender;
         YamlConfiguration yml = new YamlConfiguration();
         File userConfig = new File(DarkenHome.UserFile + p.getUniqueId() + ".yml");
-
+        boolean canUseCommand = true;
         try {
             yml.load(userConfig);
         } catch (IOException e) {
@@ -31,6 +34,16 @@ public class SetHome implements CommandExecutor {
         } catch (InvalidConfigurationException e) {
             throw new RuntimeException(e);
         }
+
+        if (client.usePermissions) {
+            canUseCommand = false;
+            if (p.hasPermission("dark.home.sethome")) {
+                canUseCommand = true;
+            }
+        }
+
+        if (!canUseCommand)
+            return false;
 
         if(label.equalsIgnoreCase("sethome")){
             if(args.length == 0){

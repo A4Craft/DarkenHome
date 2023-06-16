@@ -16,14 +16,25 @@ public class BedSpawn implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        Player p = (Player)sender;
+        if(!client.useBedSystem)
+            return false;
 
-        if(label.equalsIgnoreCase("bed")){
-            if(p.getBedSpawnLocation() != null) {
-                
-                p.teleport(p.getBedSpawnLocation());
-            }else{
-                p.sendMessage("No bed has been set");
+        Player p = (Player) sender;
+        boolean hasPermissions = true;
+        if (label.equalsIgnoreCase("bed")) {
+            if (client.usePermissions) {
+                hasPermissions = false;
+                if (p.hasPermission("darkhome.use.bed")) {
+                    hasPermissions = true;
+                }
+            }
+
+            if (hasPermissions) {
+                if (p.getBedSpawnLocation() != null) {
+                    p.teleport(p.getBedSpawnLocation());
+                } else {
+                    p.sendMessage("No bed has been set");
+                }
             }
         }
         return false;
